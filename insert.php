@@ -1,19 +1,35 @@
-<!doctype html>
+<?php
+if(isset($_POST['name']) && !empty($_POST['name'])){
+	$dsn = "mysql:host=localhost;dbname=lianxi";
+	$db = new PDO($dsn, 'root', 'root');
+	$db->query('set names utf8');
+    $name  = $_POST['name'];
+    $sex  = $_POST['sex'];
+    $age  = $_POST['age'];
+	$sql="insert into user (name,sex,age) values('$name','$sex','$age')";
+	$r = $db->exec($sql);
+	if($r){
+		echo "<script>window.location.href='index.php/?c=index/index';</script>";
+	}else{
+		echo "<script>alert('添加失败')</script>";
+	}
+	exit;
+}
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<title>Document</title>
 </head>
 <body>
-    <form action="index.php?r=user/insert_do" method="post">
-    <input type="hidden" name="_csrf" value="<?=YII::$app->request->csrfToken?>">
-    <div class="form-group">
-        <label>名字</label>
-    <input type="text" class="form-control" name="name">
-    </div>
-<input type="submit" value="添加" class="btn btn-default">
+<center>
+	<form action="insert.php" method="post">
+		姓名：<input type="text" name="name">
+        性别：<input type="text" name="sex">
+        年龄：<input type="text" name="age">
+		<button>提交</button>
+	</form>
+</center>
 </body>
 </html>
